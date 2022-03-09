@@ -17,14 +17,13 @@ import com.google.gson.GsonBuilder;
 )
 public class ImageFinder extends HttpServlet{
 
-	ImageFinderModel ifm = null;  // The "business model" for this app
-
+	FetchImagesTask ifm = null;  // The "business model" for this app
+	ThreadPoolWrapper threadPoolWrapper;
 	// Initiate this servlet by instantiating the model that it will use.
 	@Override
 	public void init() {
-		ifm = new ImageFinderModel();
+		threadPoolWrapper = new ThreadPoolWrapper();
 	}
-
 	private static final long serialVersionUID = 1L;
 
 	protected static final Gson GSON = new GsonBuilder().create();
@@ -43,8 +42,12 @@ public class ImageFinder extends HttpServlet{
 		String path = req.getServletPath();
 		String url = req.getParameter("url");
 
+
 		// String[] images = ifm.doSearch(url);
 		System.out.println("Got request of:" + path + " with query param:" + url);
 		resp.getWriter().print(GSON.toJson(testImages));
+
+		ifm = new FetchImagesTask(url);
+		System.out.println("Got request of:" + path + " with query param:" + url);
 	}
 }
