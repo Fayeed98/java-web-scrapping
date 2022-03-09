@@ -50,7 +50,7 @@ public class ImageFinder extends HttpServlet{
 		// String[] images = ifm.doSearch(url);
 
 		List<String> allImageURLlist = new ArrayList<>();
-		for(FetchImagesTask link : ifm.links){
+		for(FetchImagesTask link : ifm.fetchImagesTasksList){
 			allImageURLlist.addAll(link.imageURLs);
 		}
 
