@@ -16,6 +16,9 @@ import com.google.gson.GsonBuilder;
     urlPatterns = {"/main"}
 )
 public class ImageFinder extends HttpServlet{
+
+
+	
 	private static final long serialVersionUID = 1L;
 
 	protected static final Gson GSON = new GsonBuilder().create();
