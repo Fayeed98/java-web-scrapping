@@ -1,6 +1,9 @@
 package com.eulerity.hackathon.imagefinder;
 
 import java.io.IOException;
+import java.lang.reflect.Type;
+import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -10,6 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.reflect.TypeToken;
 
 @WebServlet(
     name = "ImageFinder",
@@ -44,7 +48,15 @@ public class ImageFinder extends HttpServlet{
 		ifm = new ImageFinderModel();
 		// ifm = new ImageFinderModel();
 		// String[] images = ifm.doSearch(url);
+
+		List<String> allImageURLlist = new ArrayList<>();
+		for(FetchImagesTask link : ifm.links){
+			allImageURLlist.addAll(link.imageURLs);
+		}
+
 		System.out.println("Got request of:" + path + " with query param:" + url);
+		Type listOfTestObject = new TypeToken<List<ArrayList>>(){}.getType();
+		String s = GSON.toJson(allImageURLlist, listOfTestObject);
 		resp.getWriter().print(GSON.toJson(testImages));
 		ifm.doSearch(url);
 		// ifm = new FetchImagesTask(url);
