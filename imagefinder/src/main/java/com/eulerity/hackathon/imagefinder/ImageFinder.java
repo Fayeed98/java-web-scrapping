@@ -43,8 +43,8 @@ public class ImageFinder extends HttpServlet{
 		String path = req.getServletPath();
 		String url = req.getParameter("url");
 
-		String[] images = ifm.doSearch(url);
+		// String[] images = ifm.doSearch(url);
 		System.out.println("Got request of:" + path + " with query param:" + url);
-		resp.getWriter().print(GSON.toJson(images));
+		resp.getWriter().print(GSON.toJson(testImages));
 	}
 }

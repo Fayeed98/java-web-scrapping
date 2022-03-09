@@ -7,24 +7,38 @@ import org.jsoup.nodes.Element;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 public class ImageFinderModel {
+    Document doc;
+    static HashMap<String, ArrayList<String>> map = new HashMap<>();
 
-    public String[] doSearch(String url)
+    public void doSearch(String url)
             throws IOException {
-        ArrayList<String> list2 = new ArrayList<>();
-        list2 = fetch(url);
-
-        return list2.toArray(new String[list2.size()]);
-    }
-
-    public ArrayList<String> fetch(String url) throws IOException {
-        Document doc = Jsoup.connect(url).get();
-        ArrayList<String> list = new ArrayList<>();
-        for (Element e : doc.select("img")) {
-            // System.out.println("printing"+e.attr("src"));
-            list.add(e.attr("src"));
+        doc = Jsoup.connect(url).get();
+        String[] elements = {"img", "link"};
+        for (String s:elements) {
+            fetch(doc, s);
         }
-        return list;
     }
+
+    public void fetch(Document doc, String tag) throws IOException {
+        ArrayList<String> list = new ArrayList<>();
+        if (tag.equalsIgnoreCase("img")) {
+            for (Element e : doc.select("img")) {
+                // System.out.println("printing"+e.attr("src"));
+                list.add(e.attr("src"));
+            }
+            map.put("images", list);
+        }
+        else if(tag.equalsIgnoreCase("link")) {
+            for (Element e : doc.select("a")) {
+                System.out.println("printing"+e.absUrl("href"));
+                list.add(e.absUrl("href"));
+            }
+            map.put("links", list);
+        }
+    }
+
+
 }
