@@ -4,11 +4,11 @@ import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
-public class MultiThreading {
+public class ThreadPoolWrapper {
     static int cores ;
     static ExecutorService executorService = null;
 
-    public MultiThreading(){
+    public ThreadPoolWrapper(){
         {
             cores = Runtime.getRuntime().availableProcessors();
             Executors.newFixedThreadPool(cores*2);
