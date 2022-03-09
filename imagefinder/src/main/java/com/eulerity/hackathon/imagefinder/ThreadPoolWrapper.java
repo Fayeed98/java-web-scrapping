@@ -15,7 +15,7 @@ public class ThreadPoolWrapper {
         }
     }
 
-    public void computeParallely(List<Runnable> tasks){
+    public void computeParallely(List<> tasks){
         for(Runnable task : tasks){
             executorService.execute(task);
         }
