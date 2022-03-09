@@ -46,10 +46,9 @@ public class ImageFinder extends HttpServlet{
 		String path = req.getServletPath();
 		String url = req.getParameter("url");
 		ifm = new ImageFinderModel();
-		// ifm = new ImageFinderModel();
-		// String[] images = ifm.doSearch(url);
 
 		List<String> allImageURLlist = new ArrayList<>();
+
 		for(FetchImagesTask link : ifm.fetchImagesTasksList){
 			allImageURLlist.addAll(link.imageURLs);
 		}

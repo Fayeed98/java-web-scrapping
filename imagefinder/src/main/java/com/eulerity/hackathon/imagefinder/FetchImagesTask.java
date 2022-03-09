@@ -4,12 +4,11 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public class FetchImagesTask implements Runnable{
     String url;
-    List<String> imageURLs = null;
+    Set<String> imageURLs = null;
 
     public FetchImagesTask(String url){
         this.url = url;
@@ -17,7 +16,7 @@ public class FetchImagesTask implements Runnable{
 
     public void fetchAndStore() throws IOException {
         Document doc = Jsoup.connect(url).get();
-        imageURLs = new ArrayList<>();
+        imageURLs = new LinkedHashSet<>();
         for (Element e : doc.select("img")) {
             System.out.println("printing: "+e.attr("src"));
             imageURLs.add(e.attr("src"));
