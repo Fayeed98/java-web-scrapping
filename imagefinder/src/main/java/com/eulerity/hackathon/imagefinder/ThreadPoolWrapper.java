@@ -21,5 +21,9 @@ public class ThreadPoolWrapper {
             Runnable task = fetchImagesTasks.get(i);
             executorService.execute(task);
         }
+
+        executorService.shutdown();
+        while(!executorService.isTerminated()) {}
+        System.out.println("All threads stopped");
     }
 }

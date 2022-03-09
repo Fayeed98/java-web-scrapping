@@ -15,6 +15,7 @@ public class FetchImagesTask implements Runnable{
     }
 
     public void fetchAndStore() throws IOException {
+        System.out.println("here to fetch img of url: "+ this.url);
         Document doc = Jsoup.connect(url).get();
         imageURLs = new LinkedHashSet<>();
         for (Element e : doc.select("img")) {
@@ -23,6 +24,7 @@ public class FetchImagesTask implements Runnable{
         }
     }
 
+    // Put all the urls in threadpoolwrapper- compute parallely
     @Override
     public void run() {
         try {
@@ -33,6 +35,5 @@ public class FetchImagesTask implements Runnable{
     }
 }
 
-// get all anchor tags -- all urls
-// for all urls create a list of fetch images task objects
-// then put it in threadpoolwrapper. compute parallely
+
+

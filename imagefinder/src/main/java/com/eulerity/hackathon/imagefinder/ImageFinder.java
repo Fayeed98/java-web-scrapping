@@ -3,7 +3,11 @@ package com.eulerity.hackathon.imagefinder;
 import java.io.IOException;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.*;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
@@ -46,19 +50,32 @@ public class ImageFinder extends HttpServlet{
 		String path = req.getServletPath();
 		String url = req.getParameter("url");
 		ifm = new ImageFinderModel();
+		System.out.println("Got request of:" + path + " with query param:" + url);
 
-		List<String> allImageURLlist = new ArrayList<>();
+		ifm.doSearch(url);
 
+		Set<String> allImageURLlist = new LinkedHashSet<>();
+		// System.out.println("size is"+ ifm.fetchImagesTasksList.size());
 		for(FetchImagesTask link : ifm.fetchImagesTasksList){
-			allImageURLlist.addAll(link.imageURLs);
+			// System.out.println("out of threads now: "+ link.);
+			for(String s: link.imageURLs) {
+				System.out.println("img is"+ s);
+				if(isValid(s)) {
+					allImageURLlist.add(s);
+					// System.out.println("out of threads now: "+ s);
+				}
+			}
 		}
 
-		System.out.println("Got request of:" + path + " with query param:" + url);
-		Type listOfTestObject = new TypeToken<List<ArrayList>>(){}.getType();
-		String s = GSON.toJson(allImageURLlist, listOfTestObject);
-		resp.getWriter().print(GSON.toJson(testImages));
-		ifm.doSearch(url);
-		// ifm = new FetchImagesTask(url);
-		System.out.println("Got request of:" + path + " with query param:" + url);
+		System.out.println("Arryalist is"+ allImageURLlist);
+
+		resp.getWriter().print(GSON.toJson(allImageURLlist.toArray()));
+	}
+
+	private static boolean isValid(String url) {
+		String urlPattern = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+		Pattern pattern = Pattern.compile(urlPattern, Pattern.CASE_INSENSITIVE);
+		Matcher matcher = pattern.matcher(url);
+		return matcher.matches();
 	}
 }
