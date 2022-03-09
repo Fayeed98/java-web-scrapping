@@ -11,13 +11,13 @@ public class ThreadPoolWrapper {
     public ThreadPoolWrapper(){
         {
             cores = Runtime.getRuntime().availableProcessors();
-            Executors.newFixedThreadPool(cores*2);
+            executorService = Executors.newFixedThreadPool(cores*2);
         }
     }
 
     public void computeParallely(List<FetchImagesTask> fetchImagesTasks){
-
         for(int i = 0; i < fetchImagesTasks.size() ; i ++){
+            // System.out.println(fetchImagesTasks.get(i).url);
             Runnable task = fetchImagesTasks.get(i);
             executorService.execute(task);
         }

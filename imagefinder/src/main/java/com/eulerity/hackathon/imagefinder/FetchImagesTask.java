@@ -3,7 +3,6 @@ package com.eulerity.hackathon.imagefinder;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,12 +15,11 @@ public class FetchImagesTask implements Runnable{
         this.url = url;
     }
 
-
     public void fetchAndStore() throws IOException {
         Document doc = Jsoup.connect(url).get();
         imageURLs = new ArrayList<>();
         for (Element e : doc.select("img")) {
-            // System.out.println("printing"+e.attr("src"));
+            System.out.println("printing: "+e.attr("src"));
             imageURLs.add(e.attr("src"));
         }
     }
