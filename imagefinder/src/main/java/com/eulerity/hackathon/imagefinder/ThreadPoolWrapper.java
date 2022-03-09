@@ -15,8 +15,10 @@ public class ThreadPoolWrapper {
         }
     }
 
-    public void computeParallely(List<> tasks){
-        for(Runnable task : tasks){
+    public void computeParallely(List<FetchImagesTask> fetchImagesTasks){
+
+        for(int i = 0; i < fetchImagesTasks.size() ; i ++){
+            Runnable task = fetchImagesTasks.get(i);
             executorService.execute(task);
         }
     }
