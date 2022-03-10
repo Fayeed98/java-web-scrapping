@@ -4,12 +4,10 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.*;
-import java.util.HashMap;
 import java.util.LinkedHashSet;
 import java.util.Set;
 
@@ -18,9 +16,14 @@ public class ImageFinderModel {
     String domainURL;
 
     Set<FetchImagesTask> fetchImagesTasksList = new LinkedHashSet<>();
-
     ThreadPoolWrapper threadPoolWrapper = new ThreadPoolWrapper();
 
+    /**
+     *Search method to crawl the given URL
+     *
+     * @param url
+     * @throws IOException
+     */
     public void doSearch(String url) throws IOException {
         try {
             domainURL = url;
@@ -36,6 +39,11 @@ public class ImageFinderModel {
         }
     }
 
+    /**
+     * Fetch method to get all the urls embedded in the website
+     * @param doc
+     * @throws IOException
+     */
     public void fetchUrls(Document doc) throws IOException {
         for (Element e : doc.select("a")) {
             // for all urls create a list of fetch images task objects for same domain
@@ -45,6 +53,12 @@ public class ImageFinderModel {
         }
     }
 
+    /**
+     * This function checks i the URL belongs to same domain or not
+     * @param imageLink
+     * @return
+     * @throws MalformedURLException
+     */
     public boolean isURLSameDomain(String imageLink) throws MalformedURLException {
         URL imageURL = new URL(imageLink);
         URL domainURI = new URL(domainURL);

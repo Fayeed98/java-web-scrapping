@@ -1,11 +1,7 @@
 package com.eulerity.hackathon.imagefinder;
 
 import java.io.IOException;
-import java.lang.reflect.Type;
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.*;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -55,14 +51,12 @@ public class ImageFinder extends HttpServlet{
 		ifm.doSearch(url);
 
 		Set<String> allImageURLlist = new LinkedHashSet<>();
-		// System.out.println("size is"+ ifm.fetchImagesTasksList.size());
+
+		// Get all the fetchImagesTasksList objects and extract all the image links into the allImageURLlist Set
 		for(FetchImagesTask link : ifm.fetchImagesTasksList){
-			// System.out.println("out of threads now: "+ link.);
 			for(String s: link.imageURLs) {
-				// System.out.println("img is"+ s);
 				if(isValid(s)) {
 					allImageURLlist.add(s);
-					// System.out.println("out of threads now: "+ s);
 				}
 			}
 		}
@@ -70,6 +64,11 @@ public class ImageFinder extends HttpServlet{
 		resp.getWriter().print(GSON.toJson(allImageURLlist.toArray()));
 	}
 
+	/**
+	 * Check if the image is valid
+	 * @param url
+	 * @return
+	 */
 	private static boolean isValid(String url) {
 		String urlPattern = "^(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 		Pattern pattern = Pattern.compile(urlPattern, Pattern.CASE_INSENSITIVE);

@@ -8,6 +8,9 @@ public class ThreadPoolWrapper {
     static int cores ;
     static ExecutorService executorService = null;
 
+    /**
+     * This is the threadpool wrapper with threads (current cores*2)
+     */
     public ThreadPoolWrapper(){
         {
             cores = Runtime.getRuntime().availableProcessors();
@@ -15,6 +18,10 @@ public class ThreadPoolWrapper {
         }
     }
 
+    /**
+     * Method where parallel computation happens
+     * @param fetchImagesTasks
+     */
     public void computeParallely(List<FetchImagesTask> fetchImagesTasks){
         for(int i = 0; i < fetchImagesTasks.size() ; i ++){
             // System.out.println(fetchImagesTasks.get(i).url);

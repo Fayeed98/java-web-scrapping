@@ -4,7 +4,6 @@ import org.jsoup.HttpStatusException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-
 import java.io.IOException;
 import java.util.*;
 
@@ -16,13 +15,16 @@ public class FetchImagesTask implements Runnable {
         this.url = url;
     }
 
+    /**
+     * Fetches for all the images in the URL
+     * @throws IOException
+     */
     public void fetchAndStore() throws IOException{
         try {
             System.out.println("here to fetch img of url: " + this.url);
             imageURLs = new LinkedHashSet<>();
             Document doc = Jsoup.connect(url).get();
             for (Element e : doc.select("img")) {
-                System.out.println("printing: " + e.attr("src"));
                 imageURLs.add(e.attr("src"));
             }
         } catch (
@@ -33,7 +35,10 @@ public class FetchImagesTask implements Runnable {
         }
     }
 
-    // Put all the urls in threadpoolwrapper- compute parallely
+    /**
+     * Put all the urls in threadpoolwrapper- compute parallely
+     *
+     */
     @Override
     public void run() {
         try {
