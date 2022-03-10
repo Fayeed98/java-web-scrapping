@@ -59,15 +59,13 @@ public class ImageFinder extends HttpServlet{
 		for(FetchImagesTask link : ifm.fetchImagesTasksList){
 			// System.out.println("out of threads now: "+ link.);
 			for(String s: link.imageURLs) {
-				System.out.println("img is"+ s);
+				// System.out.println("img is"+ s);
 				if(isValid(s)) {
 					allImageURLlist.add(s);
 					// System.out.println("out of threads now: "+ s);
 				}
 			}
 		}
-
-		System.out.println("Arryalist is"+ allImageURLlist);
 
 		resp.getWriter().print(GSON.toJson(allImageURLlist.toArray()));
 	}
